@@ -9,10 +9,16 @@ function getUserById(req, res) {
   });
 }
 
-function createuser(req, res) {
+function createUser(req, res) {
   const newUser = new User(req.body);
+
+  newUser.save((err, userInfo) => {
+    if (err) return res.staus(400).send(err.message);
+    return res.status(200).send(userInfo);
+  });
 }
 
 module.exports = {
   getUserById,
+  createUser,
 };

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { Corporation } = require('./corporationModel');
+const { Task } = require('./taskModel');
 
 const { Schema } = mongoose;
 
@@ -26,13 +28,17 @@ const userSchema = new Schema({
     immutable: true,
     required: [true, 'Can not continue without the salt'],
   },
-  organization: {
-    type: String,
-  },
   gender: {
     type: String,
     required: [true, 'Gender required'],
     enum: ['male', 'female', 'other'],
   },
+  organization: {
+    type: Corporation,
+  },
+  task: {
+    type: Task,
+  },
+  sharedUsers: [String],
 });
 module.exports = mongoose.model('User', userSchema);
