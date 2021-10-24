@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const { Corporation } = require('./corporationModel');
-const { Task } = require('./taskModel');
+const corpSchema = require('./corpModel');
+const taskSchema = require('./taskModel');
 
 const { Schema } = mongoose;
 
@@ -34,11 +34,12 @@ const userSchema = new Schema({
     enum: ['male', 'female', 'other'],
   },
   organization: {
-    type: Corporation,
+    type: corpSchema,
   },
-  task: {
-    type: Task,
-  },
-  sharedUsers: [String],
+  task: { // Every user has a task
+    type: taskSchema,
+    default: {},
+  }, // Other users task can be shared
+  sharedUsers: [String], // Shared task from users stored as users id's
 });
 module.exports = mongoose.model('User', userSchema);
