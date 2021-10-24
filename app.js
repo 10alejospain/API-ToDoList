@@ -12,4 +12,8 @@ app.use(express.json());
 // Created rutes
 app.use('/users', userCreationRoute);
 
+app.use('/', (req, res) => {
+  res.status(200).send({ msg: 'Web up and running!' });
+});
+
 module.exports = app;
