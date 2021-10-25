@@ -10,13 +10,13 @@ function getCorp(req, res) {
   }).populate('corporationTask');
 }
 
-// POST METHOD
+// POST METHODS
 
 function createCorp(req, res) {
   const newCorp = new Corporation(req.body);
 
   newCorp.save((err, corpAdded) => {
-    if (err) { return res.status(400).send({ message: 'Error adding corporation', error: err }); }
+    if (err) { return res.status(400).send({ msg: 'Error adding corporation', error: err }); }
     return res.status(200).send({ msg: 'Corporation added!', newCorp: corpAdded });
   });
 }
