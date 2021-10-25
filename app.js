@@ -11,12 +11,6 @@ app.use(express.urlencoded({
 
 app.use(express.json());
 
-// Default route
-
-/* pp.use('/', (req, res) => {
-  res.status(200).send({ msg: 'Web up and running!' });
-}); */
-
 // Created routes
 
 app.use('/users', userCreationRoute);
