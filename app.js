@@ -13,7 +13,7 @@ app.use(express.json());
 
 // Created routes
 
-app.use('/users', userCreationRoute);
+app.use('/user', userCreationRoute);
 app.use('/corp', corporationRoute);
 
 module.exports = app;

@@ -14,18 +14,18 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Name required'],
   },
-  surnames: {
+  surname: {
     type: String,
     required: [true, 'Surname required'],
   },
   password: {
     type: String,
-    required: [true, 'Password required'],
+    // required: [true, 'Password required'],
   },
   salt: {
     type: String,
     immutable: true,
-    required: [true, 'Can not continue without the salt'],
+    // required: [true, 'Can not continue without the salt'],
   },
   gender: {
     type: String,
@@ -51,8 +51,8 @@ userSchema.pre('save', (next) => {
 
   user.salt = randomBytes(64);
 
-  pbkdf2Sync(user.password, user.salt, 10, 64, 'sha512', (err, encrypted) => {
-    if (err) { return next(err); }
+  pbkdf2Sync(user.password, user.salt, 10, 64, 'sha512', (errE, encrypted) => {
+    if (errE) { return next(`Error encrypting ${errE.message}`); }
     user.password = encrypted;
     next();
   });
