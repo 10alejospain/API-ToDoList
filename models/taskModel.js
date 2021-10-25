@@ -9,7 +9,7 @@ const taskSchema = new Schema({
   },
   taskDescription: {
     type: String,
-    default: '', // May be remove later
+    default: ' ', // May be remove later
   },
   taskType: {
     type: String,
@@ -29,4 +29,3 @@ const taskSchema = new Schema({
 });
 
 module.exports = mongoose.model('Task', taskSchema);
-module.exports = taskSchema;

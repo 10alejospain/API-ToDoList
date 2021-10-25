@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const taskSchema = require('./taskModel');
 
 const corpSchema = new Schema({
   name: {
@@ -9,10 +8,10 @@ const corpSchema = new Schema({
     required: [true, 'Corp name required'],
   },
   corporationTask: { // Every corp has a task
-    type: taskSchema,
-    default: {},
+    type: Schema.Types.ObjectId,
+    ref: 'Task',
+    default: null,
   },
 });
 
 module.exports = mongoose.model('Corporation', corpSchema);
-module.exports = corpSchema;
