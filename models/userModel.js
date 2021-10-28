@@ -45,17 +45,11 @@ const userSchema = new Schema({
   sharedUsers: [Schema.Types.ObjectId], // Shared task from users stored as users id's
 });
 
-userSchema.pre('save', (next) => {
-  const user = this;
-  if (!user.isModified('password')) { return next(); }
+userSchema.pre('save', function (next) {
+  this.salt = randomBytes(64);
 
-  user.salt = randomBytes(64);
-
-  pbkdf2Sync(user.password, user.salt, 10, 64, 'sha512', (errE, encrypted) => {
-    if (errE) { return next(`Error encrypting ${errE.message}`); }
-    user.password = encrypted;
-    next();
-  });
+  this.password = pbkdf2Sync(this.password, this.salt, 10, 64, 'sha512').toString('hex');
+  next();
 });
 
 module.exports = mongoose.model('User', userSchema);
