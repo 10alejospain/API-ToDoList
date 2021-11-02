@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { pbkdf2Sync, randomBytes } = require('crypto');
+const { runInThisContext } = require('vm');
 
 const { Schema } = mongoose;
 
@@ -46,9 +47,11 @@ const userSchema = new Schema({
 });
 
 userSchema.pre('save', function (next) {
-  this.salt = randomBytes(64);
 
-  this.password = pbkdf2Sync(this.password, this.salt, 10, 64, 'sha512').toString('hex');
+  if(!this.isModified('password')){   
+    this.salt = randomBytes(64);
+    this.password = pbkdf2Sync(this.password, this.salt, 10, 64, 'sha512').toString('hex');
+  }
   next();
 });
 
