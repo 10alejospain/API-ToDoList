@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { pbkdf2Sync, randomBytes } = require('crypto');
-const { runInThisContext } = require('vm');
 
 const { Schema } = mongoose;
 
@@ -33,7 +32,7 @@ const userSchema = new Schema({
     required: [true, 'Gender required'],
     enum: ['male', 'female', 'other'],
   },
-  organization: {
+  corp: {
     type: Schema.Types.ObjectId,
     ref: 'Corporation',
     default: null,
@@ -47,8 +46,7 @@ const userSchema = new Schema({
 });
 
 userSchema.pre('save', function (next) {
-
-  if(!this.isModified('password')){   
+  if (this.isModified('password')) {
     this.salt = randomBytes(64);
     this.password = pbkdf2Sync(this.password, this.salt, 10, 64, 'sha512').toString('hex');
   }
