@@ -27,7 +27,7 @@ function getAllTasks(req, res) {
     return res.status(200).send(tasks);
   });
 }
-function getUserTask (req, res) {
+function getUserTask(req, res) {
   User.findById(req.params.userId, (err, task) => {
     if (err) return res.status(400).send(`Error in userController: ${err.message}`);
     return res.status(200).send(task);
