@@ -10,9 +10,9 @@ Realizar el acomplamiento conjunto con el grupo de frontend para dar una interfa
 Participantes por ramas
 
 #### Backend
-- [@Mari0ch](https://github.com/Mari0ch)
 - [@10alejospain](https://github.com/10alejospain)
-- [@Katarinter](https://github.com/Katarinter)
+- ~~[@Mari0ch]~~ ~~(https://github.com/Mari0ch)~~
+- ~~[@Katarinter]~~ ~~(https://github.com/Katarinter)~~
 
 #### Frontend
 - *sin asignar*
