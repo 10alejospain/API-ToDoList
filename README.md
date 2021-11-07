@@ -11,8 +11,8 @@ Participantes por ramas
 
 #### Backend
 - [@10alejospain](https://github.com/10alejospain)
-- ~~[@Mari0ch]~~ ~~(https://github.com/Mari0ch)~~
-- ~~[@Katarinter]~~ ~~(https://github.com/Katarinter)~~
+- ~~@Mari0ch~~
+- ~~@Katarinter~
 
 #### Frontend
 - *sin asignar*
