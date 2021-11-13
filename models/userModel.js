@@ -20,12 +20,12 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    // required: [true, 'Password required'],
+    required: [true, 'Password required'],
   },
   salt: {
     type: String,
     immutable: true,
-    // required: [true, 'Can not continue without the salt'],
+    required: [true, 'Can not continue without the salt'],
   },
   gender: {
     type: String,
@@ -41,11 +41,7 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Task',
     default: null,
-<<<<<<< HEAD
   },
-=======
-  }, // Other users task can be shared
->>>>>>> 27e5ebe674e162410d5026fa6f0023ed7ef51fbb
 });
 
 userSchema.pre('save', function (next) {

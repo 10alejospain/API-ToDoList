@@ -11,7 +11,7 @@ const router = Router();
     Before every route you must check if the user is logged in.
 
     For that auth.loggedIn function must be used except in the
-    login route.
+    login route and creation route.
 */
 
 // Login route
@@ -28,7 +28,7 @@ router.get('/everyUserTask/:userTask', userController.getAllTasks);
 
 // POST routes
 
-router.post('/create', auth.loggedIn, userController.createUser);
+router.post('/create', userController.createUser);
 
 // DELETE routes
 

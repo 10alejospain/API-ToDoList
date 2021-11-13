@@ -9,7 +9,7 @@ const taskSchema = new Schema({
   },
   taskDescription: {
     type: String,
-    default: ' ', // May be remove later
+    default: ' ',
   },
   taskType: {
     type: String,
