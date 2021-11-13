@@ -42,7 +42,6 @@ const userSchema = new Schema({
     ref: 'Task',
     default: null,
   }, // Other users task can be shared
-  sharedUsers: [Schema.Types.ObjectId], // Shared task from users stored as users id's
 });
 
 userSchema.pre('save', function (next) {
