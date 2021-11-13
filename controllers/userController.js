@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
-const Task = require('../models/taskModel');
+
+const { createToken } = require('../services/SessionToken');
 
 function getUserById(req, res) {
   User.findById(req.params.id, (err, userData) => {
@@ -34,6 +35,7 @@ function getAllTasks(req, res) {
     return res.status(200).send(tasks);
   });
 }
+
 function getUserTask(req, res) {
   User.findById(req.params.userId, (err, task) => {
     if (err) return res.status(400).send(`Error in userController: ${err.message}`);
@@ -55,6 +57,24 @@ function deleteUser(req, res) {
   });
 }
 
+function login(req, res) {
+  const { email } = req.body;
+  const { password } = req.body;
+
+  User.findOne({ email }, (err, user) => {
+    if (err) { return res.status(400).send({ msg: 'Login error', errmsg: err }); }
+    if (!user) { return res.status(403).send({ msg: 'Login error, user not found' }); }
+
+    // Check if passwords match and create session if correct
+    if (user.checkPass(password)) {
+      const userToken = createToken(user);
+
+      return res.status(200).send({ user, userToken });
+    }
+    return res.status(403).send({ msg: 'Login error, password incorrect' });
+  });
+}
+
 module.exports = {
   getUserById,
   getUserByEmail,
@@ -63,4 +83,5 @@ module.exports = {
   getUserTask,
   updateUser,
   deleteUser,
+  login,
 };
