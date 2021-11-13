@@ -1,13 +1,15 @@
 const { Router } = require('express');
+
 const corpController = require('../controllers/corpController');
+const auth = require('../middleware/authentication');
 
 const router = Router();
 
-router.get('/:id', corpController.getCorp);
+router.get('/:id', auth.loggedIn, corpController.getCorp);
 
-router.post('/create', corpController.createCorp); // Create corp without task
-router.post('/update/addTask/:corpId', corpController.createCorpTask); // Add task to corporation
+router.post('/create', auth.loggedIn, corpController.createCorp); // Create corp without task
+router.post('/update/addTask/:corpId', auth.loggedIn, corpController.createCorpTask); // Add task to corporation
 
-router.delete('/delete/:corpId', corpController.deleteCorp);
+router.delete('/delete/:corpId', auth.loggedIn, corpController.deleteCorp);
 
 module.exports = router;

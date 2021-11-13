@@ -1,6 +1,6 @@
 const express = require('express');
 
-const userCreationRoute = require('./routes/userCreationRoute');
+const userCreationRoute = require('./routes/userRoute');
 const corporationRoute = require('./routes/corporationRoute');
 const taskRoute = require('./routes/taskRoute');
 

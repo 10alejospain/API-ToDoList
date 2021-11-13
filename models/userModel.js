@@ -41,16 +41,19 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Task',
     default: null,
-  }, // Other users task can be shared
-  sharedUsers: [Schema.Types.ObjectId], // Shared task from users stored as users id's
+  },
 });
 
 userSchema.pre('save', function (next) {
   if (this.isModified('password')) {
-    this.salt = randomBytes(64);
-    this.password = pbkdf2Sync(this.password, this.salt, 10, 64, 'sha512').toString('hex');
+    this.salt = randomBytes(64).toString('hex');
+    this.password = pbkdf2Sync(this.password, this.salt, 1000, 64, 'sha512').toString('hex');
   }
   next();
 });
+
+userSchema.methods.checkPass = function (pass) { // Compares passwords in userController login
+  return this.password === pbkdf2Sync(pass, this.salt, 1000, 64, 'sha512').toString('hex');
+};
 
 module.exports = mongoose.model('User', userSchema);
