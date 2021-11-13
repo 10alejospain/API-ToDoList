@@ -2,6 +2,7 @@ const express = require('express');
 
 const userCreationRoute = require('./routes/userCreationRoute');
 const corporationRoute = require('./routes/corporationRoute');
+const taskRoute = require('./routes/taskRoute');
 
 const app = express();
 
@@ -15,5 +16,6 @@ app.use(express.json());
 
 app.use('/user', userCreationRoute);
 app.use('/corp', corporationRoute);
+app.use('/task', taskRoute);
 
 module.exports = app;
