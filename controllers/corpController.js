@@ -3,9 +3,16 @@ const Task = require('../models/taskModel');
 
 // GET METHODS
 
-function getCorp(req, res) {
-  Corporation.findOne({ _id: req.params.id }, (err, corpInfo) => {
-    if (err) { return res.status(400).send(err.message); }
+function getCorps(req, res) {
+  Corporation.find({}, (err, corpInfo) => {
+    if (err) { return res.status(400).send({ msg: 'No corporations found', error: err }); }
+    return res.status(200).send(corpInfo);
+  }).populate('corporationTask');
+}
+
+function getCorpById(req, res) {
+  Corporation.findById(req.params.id, (err, corpInfo) => {
+    if (err) { return res.status(400).send({msg: 'Error getting the corp', error: err }); }
     return res.status(200).send(corpInfo);
   }).populate('corporationTask');
 }
@@ -26,33 +33,35 @@ function createCorpTask(req, res) {
   const newTask = new Task(req.body);
 
   newTask.save((err, taskAdded) => {
-    if (err) { return res.status(400).send(err.message); }
+    if (err) { return res.status(400).send({ msg: 'Error adding corp task', error: err }); }
     Corporation.findByIdAndUpdate(corpId, { corporationTask: taskAdded.id }, (updateErr) => {
-      if (updateErr) { return res.status(400).send(updateErr.message); }
+      if (updateErr) { return res.status(400).send({ msg: 'Error adding corp task', error: updateErr }); }
       return res.status(200).send({ msg: 'Corporation task added!', newCorp: taskAdded });
     });
   });
 }
-
-// UPDATE METHODS
 
 // DELETE METHODS
 
 function deleteCorp(req, res) { // Not working
   Corporation.findByIdAndDelete(req.params.corpId, (err, corp) => {
     if (err) {
-      res.status(400).send({ msg: `Unable to delete corp ${err.message}` });
+      res.status(400).send({ msg: 'Unable to delete corp', error: err });
     } else {
-      Task.findByIdAndDelete(corp.corporationTask, (terr, corpTask) => {
-        if (terr) { res.status(400).send({ msg: 'Unable to delete corp task', terr }); }
-        return res.status(200).send({ corpDeleted: corp, corpTask });
-      });
+      if( corp.corporationTask != null) {
+        Task.findByIdAndDelete(corp.corporationTask, (terr, corpTask) => {
+          if (terr) { res.status(400).send({ msg: 'Unable to delete corp task', error: terr }); }
+          return res.status(200).send({ corpDeleted: corp, corpTask });
+        });
+      }
+      return res.status(200).send({ msg: 'Deleted succesfully', corpDeleted: corp });
     }
   });
 }
 
 module.exports = {
-  getCorp,
+  getCorps,
+  getCorpById,
   createCorp,
   createCorpTask,
   deleteCorp,
