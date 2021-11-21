@@ -3,16 +3,25 @@ const Task = require('../models/taskModel');
 
 // GET METHODS
 
-function getCorps(req, res) {
+/* function getCorps(req, res) {
   Corporation.find({}, (err, corpInfo) => {
     if (err) { return res.status(400).send({ msg: 'No corporations found', error: err }); }
+    return res.status(200).send({ corp: corpInfo, task: corporationTask });
+  }).populate('corporationTask');
+} */
+
+function getCorps(req, res) {
+  const selection = req.body;
+
+  Corporation.find(selection, (err, corpInfo) => {
+    if (err) { return res.status(400).send({ msg: 'Error getting the corp', error: err }); }
     return res.status(200).send(corpInfo);
   }).populate('corporationTask');
 }
 
 function getCorpById(req, res) {
   Corporation.findById(req.params.id, (err, corpInfo) => {
-    if (err) { return res.status(400).send({msg: 'Error getting the corp', error: err }); }
+    if (err) { return res.status(400).send({ msg: 'Error getting the corp', error: err }); }
     return res.status(200).send(corpInfo);
   }).populate('corporationTask');
 }
@@ -48,7 +57,7 @@ function deleteCorp(req, res) { // Not working
     if (err) {
       res.status(400).send({ msg: 'Unable to delete corp', error: err });
     } else {
-      if( corp.corporationTask != null) {
+      if (corp.corporationTask != null) {
         Task.findByIdAndDelete(corp.corporationTask, (terr, corpTask) => {
           if (terr) { res.status(400).send({ msg: 'Unable to delete corp task', error: terr }); }
           return res.status(200).send({ corpDeleted: corp, corpTask });

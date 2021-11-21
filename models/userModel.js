@@ -24,8 +24,6 @@ const userSchema = new Schema({
   },
   salt: {
     type: String,
-    immutable: true,
-    required: [true, 'Can not continue without the salt'],
   },
   gender: {
     type: String,
@@ -37,7 +35,7 @@ const userSchema = new Schema({
     ref: 'Corporation',
     default: null,
   },
-  task: { // Every user has a task
+  task: {
     type: Schema.Types.ObjectId,
     ref: 'Task',
     default: null,

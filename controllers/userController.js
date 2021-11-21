@@ -51,9 +51,10 @@ function updateUser(req, res) {
 }
 
 function deleteUser(req, res) {
+  console.log(req.params.userId);
   User.findByIdAndDelete(req.params.userId, (err) => {
     if (err) return res.status(400).send(`Failed to delete: ${err.message}`);
-    return res.status(200).send({ msg: `User ${req.params.userId} ok` });
+    return res.status(200).send({ msg: `User ${req.params.userId} deleted` });
   });
 }
 
@@ -68,7 +69,6 @@ function login(req, res) {
     // Check if passwords match and create session if correct
     if (user.checkPass(password)) {
       const userToken = createToken(user);
-
       return res.status(200).send({ user, userToken });
     }
     return res.status(403).send({ msg: 'Login error, password incorrect' });

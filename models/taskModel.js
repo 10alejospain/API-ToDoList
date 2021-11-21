@@ -20,7 +20,6 @@ const taskSchema = new Schema({
   },
   expireDate: {
     type: Date,
-    required: [true, 'Expiration date required'],
   },
   importanceLevel: {
     type: Number,
