@@ -52,19 +52,17 @@ function createCorpTask(req, res) {
 
 // DELETE METHODS
 
-function deleteCorp(req, res) { // Not working
+function deleteCorp(req, res) {
   Corporation.findByIdAndDelete(req.params.corpId, (err, corp) => {
     if (err) {
-      res.status(400).send({ msg: 'Unable to delete corp', error: err });
-    } else {
-      if (corp.corporationTask != null) {
-        Task.findByIdAndDelete(corp.corporationTask, (terr, corpTask) => {
-          if (terr) { res.status(400).send({ msg: 'Unable to delete corp task', error: terr }); }
-          return res.status(200).send({ corpDeleted: corp, corpTask });
-        });
-      }
-      return res.status(200).send({ msg: 'Deleted succesfully', corpDeleted: corp });
+      return res.status(400).send({ msg: 'Unable to delete corp', error: err });
     }
+    if (corp.corporationTask != null) {
+      Task.findByIdAndDelete(corp.corporationTask, (terr, corpTask) => {
+        if (terr) return res.status(400).send({ msg: 'Unable to delete corp task', error: terr });
+      });
+    }
+    return res.status(200).send({ msg: 'Deleted succesfully', corpDeleted: corp });
   });
 }
 

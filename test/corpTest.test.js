@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 /* global beforeAll, beforeEach, afterAll, afterEach, describe, it, expect */
-
 const request = require('supertest');
 const app = require('../server');
 
@@ -64,9 +63,9 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  /* await request(app)
+  await request(app)
     .delete(`/corp/delete/${corpID}`)
-    .set({ token: sessionToken }); */
+    .set({ token: sessionToken });
 });
 
 afterAll(async () => {
@@ -74,9 +73,9 @@ afterAll(async () => {
     .delete(`/user/delete/${userID}`)
     .set({ token: sessionToken });
 
-  /* await request(app)
+  await request(app)
     .delete(`/corp/delete/${corpID}`)
-    .set({ token: sessionToken }); */
+    .set({ token: sessionToken });
 });
 
 // Route testing
