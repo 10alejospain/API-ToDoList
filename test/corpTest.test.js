@@ -171,21 +171,8 @@ describe('createCorp()', () => {
         .set({ token: sessionToken })
         .expect(200)
         .then((res) => {
-          createdCorpId = res.body._id;
+          createdCorpId = res.body.newCorp._id;
           expect(res.body.msg).toEqual('Corporation added!');
-        });
-    });
-  });
-
-  describe('given a new corp', () => {
-    it('should not create a new corp if already created', async () => {
-      await request(app)
-        .post('/corp/create')
-        .send(corpTest)
-        .set({ token: sessionToken })
-        .expect(400)
-        .then((res) => {
-          expect(res.body.msg).toEqual('Error adding corporation');
         });
     });
   });
@@ -209,23 +196,10 @@ describe('createCorp()', () => {
         await request(app)
           .post(`/corp/update/addTask/${createdCorpId}`)
           .send(task)
-          .set({ token: sessionToken })
+          .set({ token: sessionToken, newTask: task })
           .expect(200)
           .then((res) => {
-            expect(res.body.msg).toEqual('Corporation added!');
-          });
-      });
-    });
-
-    describe('given a new task', () => {
-      it('should not create a new corp task, already created', async () => {
-        await request(app)
-          .post(`/corp/update/addTask/${createdCorpId}`)
-          .send(task)
-          .set({ token: sessionToken })
-          .expect(400)
-          .then((res) => {
-            expect(res.body.msg).toEqual('Error adding corp task');
+            expect(res.body.msg).toEqual('Corporation task added!');
           });
       });
     });
@@ -235,7 +209,7 @@ describe('createCorp()', () => {
         await request(app)
           .post(`/corp/update/addTask/${createdCorpId}`)
           .send(wrongTask)
-          .set({ token: sessionToken })
+          .set({ token: sessionToken, newTask: wrongTask })
           .expect(400)
           .then((res) => {
             expect(res.body.msg).toEqual('Error adding corp task');
@@ -248,6 +222,7 @@ describe('createCorp()', () => {
       it('should not be deleted', async () => {
         await request(app)
           .delete('/corp/delete/0')
+          .set({ token: sessionToken })
           .expect(400)
           .then((res) => {
             expect(res.body.msg).toEqual('Unable to delete corp');
@@ -259,6 +234,7 @@ describe('createCorp()', () => {
       it('should be deleted', async () => {
         await request(app)
           .delete(`/corp/delete/${createdCorpId}`)
+          .set({ token: sessionToken })
           .expect(200)
           .then((res) => {
             expect(res.body.msg).toEqual('Deleted succesfully');
