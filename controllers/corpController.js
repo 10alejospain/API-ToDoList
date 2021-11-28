@@ -57,8 +57,8 @@ function deleteCorp(req, res) {
     if (err) {
       return res.status(400).send({ msg: 'Unable to delete corp', error: err });
     }
-    if (corp.corporationTask != null) {
-      Task.findByIdAndDelete(corp.corporationTask, (terr, corpTask) => {
+    if (corp != null) {
+      Task.findByIdAndDelete(corp.corporationTask, (terr) => {
         if (terr) return res.status(400).send({ msg: 'Unable to delete corp task', error: terr });
       });
     }
