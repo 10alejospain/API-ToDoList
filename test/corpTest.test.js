@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 /* global beforeAll, beforeEach, afterAll, afterEach, describe, it, expect */
-
 const request = require('supertest');
 const app = require('../server');
 
@@ -12,7 +11,7 @@ let sessionToken = '';
 let corp = '';
 let corpID = '';
 
-let task = '';
+// let task = '';
 
 beforeAll(async () => {
   const uniqueNumber = Math.trunc(Math.random() * 100);
@@ -44,7 +43,7 @@ beforeEach(async () => {
   corp = {
     name: `test${uniqueNumber}CorpName`,
   };
-  task = {
+  const task = {
     taskName: `testTask${uniqueNumber}`,
     taskDescription: `testTaskDesc${uniqueNumber}`,
     taskType: `testTaskType${uniqueNumber}`,
@@ -64,9 +63,9 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  /* await request(app)
+  await request(app)
     .delete(`/corp/delete/${corpID}`)
-    .set({ token: sessionToken }); */
+    .set({ token: sessionToken });
 });
 
 afterAll(async () => {
@@ -74,9 +73,9 @@ afterAll(async () => {
     .delete(`/user/delete/${userID}`)
     .set({ token: sessionToken });
 
-  /* await request(app)
+  await request(app)
     .delete(`/corp/delete/${corpID}`)
-    .set({ token: sessionToken }); */
+    .set({ token: sessionToken });
 });
 
 // Route testing
@@ -139,8 +138,6 @@ describe('getCorpById()', () => {
   });
 });
 
-/*
-
 describe('createCorp()', () => {
   const uniqueNumber = Math.trunc(Math.random() * 100);
 
@@ -186,7 +183,7 @@ describe('createCorp()', () => {
         .post('/corp/create')
         .send(corpTest)
         .set({ token: sessionToken })
-        .expect(404)
+        .expect(400)
         .then((res) => {
           expect(res.body.msg).toEqual('Error adding corporation');
         });
@@ -199,7 +196,7 @@ describe('createCorp()', () => {
         .post('/corp/create')
         .send(wrongCorpTest)
         .set({ token: sessionToken })
-        .expect(404)
+        .expect(400)
         .then((res) => {
           expect(res.body.msg).toEqual('Error adding corporation');
         });
@@ -210,7 +207,7 @@ describe('createCorp()', () => {
     describe('given a new task', () => {
       it('should create a new corp task', async () => {
         await request(app)
-          .post(`/update/addTask/${createdCorpId}`)
+          .post(`/corp/update/addTask/${createdCorpId}`)
           .send(task)
           .set({ token: sessionToken })
           .expect(200)
@@ -223,10 +220,10 @@ describe('createCorp()', () => {
     describe('given a new task', () => {
       it('should not create a new corp task, already created', async () => {
         await request(app)
-          .post(`/update/addTask/${createdCorpId}`)
+          .post(`/corp/update/addTask/${createdCorpId}`)
           .send(task)
           .set({ token: sessionToken })
-          .expect(404)
+          .expect(400)
           .then((res) => {
             expect(res.body.msg).toEqual('Error adding corp task');
           });
@@ -236,10 +233,10 @@ describe('createCorp()', () => {
     describe('given a new task', () => {
       it('should not create a new corp task, wrong format', async () => {
         await request(app)
-          .post(`/update/addTask/${createdCorpId}`)
+          .post(`/corp/update/addTask/${createdCorpId}`)
           .send(wrongTask)
           .set({ token: sessionToken })
-          .expect(404)
+          .expect(400)
           .then((res) => {
             expect(res.body.msg).toEqual('Error adding corp task');
           });
@@ -250,8 +247,8 @@ describe('createCorp()', () => {
     describe('given an uncreated corp', () => {
       it('should not be deleted', async () => {
         await request(app)
-          .delete('/delete/0')
-          .expect(404)
+          .delete('/corp/delete/0')
+          .expect(400)
           .then((res) => {
             expect(res.body.msg).toEqual('Unable to delete corp');
           });
@@ -261,7 +258,7 @@ describe('createCorp()', () => {
     describe('given a corp', () => {
       it('should be deleted', async () => {
         await request(app)
-          .delete(`/delete/${createdCorpId}`)
+          .delete(`/corp/delete/${createdCorpId}`)
           .expect(200)
           .then((res) => {
             expect(res.body.msg).toEqual('Deleted succesfully');
@@ -270,4 +267,3 @@ describe('createCorp()', () => {
     });
   });
 });
-*/

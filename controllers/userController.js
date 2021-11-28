@@ -51,7 +51,6 @@ function updateUser(req, res) {
 }
 
 function deleteUser(req, res) {
-  console.log(req.params.userId);
   User.findByIdAndDelete(req.params.userId, (err) => {
     if (err) return res.status(400).send(`Failed to delete: ${err.message}`);
     return res.status(200).send({ msg: `User ${req.params.userId} deleted` });

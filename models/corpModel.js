@@ -6,6 +6,7 @@ const corpSchema = new Schema({
   name: {
     type: String,
     required: [true, 'Corp name required'],
+    unique: true,
   },
   corporationTask: { // Every corp has a task
     type: Schema.Types.ObjectId,
